@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://pywn3tf5j5pj"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_8cj0n"]
+font_size = 96
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -67.5
+offset_top = -11.5
+offset_right = 67.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Welcome to LD57"
+label_settings = SubResource("LabelSettings_8cj0n")
+
+[node name="Camera2D" type="Camera2D" parent="."]
