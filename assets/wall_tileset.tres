@@ -1,0 +1,17 @@
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://h6upodi6txib"]
+
+[ext_resource type="Texture2D" uid="uid://da6a2u4tc8oh" path="res://assets/tilemap.png" id="1_sdpeq"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lnu2h"]
+resource_name = "wall"
+texture = ExtResource("1_sdpeq")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+
+[resource]
+tile_shape = 3
+tile_offset_axis = 1
+tile_size = Vector2i(64, 54)
+sources/1 = SubResource("TileSetAtlasSource_lnu2h")
