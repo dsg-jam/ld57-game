@@ -1,13 +1,17 @@
-[gd_scene load_steps=2 format=3 uid="uid://pywn3tf5j5pj"]
+[gd_scene load_steps=3 format=3 uid="uid://pywn3tf5j5pj"]
+
+[ext_resource type="Script" uid="uid://dxqaxarme8w2e" path="res://addons/hexagon_tilemaplayer/hexagon_tilemap.gd" id="1_uwrxv"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8cj0n"]
 font_size = 96
 
-[node name="Menu" type="Control"]
+[node name="Node" type="Node"]
+
+[node name="Menu" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 
-[node name="Label" type="Label" parent="."]
+[node name="Label" type="Label" parent="Menu"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -23,4 +27,7 @@ grow_vertical = 2
 text = "Welcome to LD57"
 label_settings = SubResource("LabelSettings_8cj0n")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="Menu"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+script = ExtResource("1_uwrxv")
