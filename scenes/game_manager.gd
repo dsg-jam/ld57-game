@@ -16,6 +16,7 @@ class ItemPos:
 	var _item_type: Global.ItemType
 
 func _ready() -> void:
+	self._tile_manager.checkpoint_reached.connect(self._on_checkpoint_reached)
 	self._setup_ui()
 
 func _input(event):
@@ -67,3 +68,6 @@ func _remove_item():
 
 func _on_item_button_pressed(item_type: Global.ItemType):
 	self._selected_items_type = item_type
+
+func _on_checkpoint_reached(y: float):
+	print(y)

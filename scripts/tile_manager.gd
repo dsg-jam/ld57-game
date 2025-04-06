@@ -3,6 +3,9 @@ class_name M_TileManager extends Node
 @export var _wall_layer: HexagonTileMapLayer
 @export var _light_layer: HexagonTileMapLayer
 @export var _item_layer: HexagonTileMapLayer
+@export var _event_layer: HexagonTileMapLayer
+
+signal checkpoint_reached
 
 var _tiles: Dictionary[Vector3i, M_Tile]
 
@@ -31,6 +34,12 @@ func _load_tiles() -> void:
 		print("mirror at: ", map_pos, " dir: ", direction)
 		self._add_tile(M_MirrorTile.new(cube_pos, direction))
 
+	for map_pos in self._event_layer.get_used_cells():
+		var cube_pos := self._event_layer.map_to_cube(map_pos)
+		var event_tile = M_EventTile.new(cube_pos)
+		event_tile.checkpoint_reached.connect(self._on_checkpoint_reached)
+		self._add_tile(event_tile)
+
 	var lights_to_propagate: Array[M_Tile] = []
 	for map_pos in self._light_layer.get_used_cells():
 		var cube_pos := self._light_layer.map_to_cube(map_pos)
@@ -44,6 +53,10 @@ func _load_tiles() -> void:
 
 		print("Starting propagation on ", tile.position)
 		tile.on_incoming_light(tile_top, M_Light.new(M_Light.M_Color.WHITE, 30))
+
+func _on_checkpoint_reached(pos: Vector3i):
+	var map_pos = self._event_layer.cube_to_map(pos)
+	checkpoint_reached.emit(map_pos.y)
 
 func set_item(item_type: Global.ItemType) -> bool:
 	var cube_pos = self._item_layer.get_closest_cell_from_mouse()
