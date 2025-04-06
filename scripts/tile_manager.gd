@@ -4,55 +4,56 @@ class_name M_TileManager extends Node
 @export var _light_layer: HexagonTileMapLayer
 @export var _item_layer: HexagonTileMapLayer
 @export var _event_layer: HexagonTileMapLayer
+@export var _lights_source_id: int
 
 signal checkpoint_reached
 
 var _tiles: Dictionary[Vector3i, M_Tile]
 
 func _ready() -> void:
-	self._load_tiles()
+	self._load_tiles_from_layers()
 
 func _add_tile(tile: M_Tile) -> M_Tile:
+	var existing_tile: M_Tile = self._tiles.get(tile.position)
+	if existing_tile:
+		self.remove_child(existing_tile)
+		existing_tile.tile_manager = null
+
+	self._tiles[tile.position] = tile
 	tile.tile_manager = self
 	self.add_child(tile)
-	self._tiles[tile.position] = tile
 	return tile
 
-func _load_tiles() -> void:
+func _load_tiles_from_layers() -> void:
+	# Load walls
 	for map_pos in self._wall_layer.get_used_cells():
 		var cube_pos := self._wall_layer.map_to_cube(map_pos)
 		self._add_tile(M_WallTile.new(cube_pos))
 
-	# TODO: this is really just hard-coded for demo purposes
-	#       we should be able to load this from a file
-
+	# Load pre-defined items
 	for map_pos in self._item_layer.get_used_cells():
 		var cube_pos := self._item_layer.map_to_cube(map_pos)
 		var atlas_coords := self._item_layer.get_cell_atlas_coords(map_pos)
 		# The x component of the atlas coords corresponds to the direction enum
-		var direction := atlas_coords.x as M_Tile.Direction
-		print("mirror at: ", map_pos, " dir: ", direction)
+		var direction := atlas_coords.x as M_Tile.M_Direction
 		self._add_tile(M_MirrorTile.new(cube_pos, direction))
 
+	# Load events
 	for map_pos in self._event_layer.get_used_cells():
 		var cube_pos := self._event_layer.map_to_cube(map_pos)
 		var event_tile = M_EventTile.new(cube_pos)
 		event_tile.checkpoint_reached.connect(self._on_checkpoint_reached)
 		self._add_tile(event_tile)
 
-	var lights_to_propagate: Array[M_Tile] = []
+	# Load light emitters
 	for map_pos in self._light_layer.get_used_cells():
 		var cube_pos := self._light_layer.map_to_cube(map_pos)
-		var tile := self._add_tile(M_AirTile.new(cube_pos))
-		lights_to_propagate.push_back(tile)
+		var atlas_coords := self._item_layer.get_cell_atlas_coords(map_pos)
+		# The x component of the atlas coords corresponds to the direction enum
+		var direction := atlas_coords.x as M_Tile.M_Direction
+		self._add_tile(M_LightEmitterTile.from_layer(cube_pos, direction))
 
-	for tile in lights_to_propagate:
-		# start a propagation
-		var cube_pos_top := tile.position + M_Tile.VEC_UP
-		var tile_top := self._add_tile(M_AirTile.new(cube_pos_top))
-
-		print("Starting propagation on ", tile.position)
-		tile.on_incoming_light(tile_top, M_Light.new(M_Light.M_Color.WHITE, 30))
+	self._recalculate_light()
 
 func _on_checkpoint_reached(pos: Vector3i):
 	var map_pos = self._event_layer.cube_to_map(pos)
@@ -68,7 +69,7 @@ func set_item(item_type: Global.ItemType) -> bool:
 	var item_tile: M_Tile
 	match item_type:
 		Global.ItemType.MIRROR:
-			item_tile = M_MirrorTile.new(cube_pos, M_Tile.Direction.UP_RIGHT)
+			item_tile = M_MirrorTile.new(cube_pos, M_Tile.M_Direction.UP_RIGHT)
 	self._tiles.set(cube_pos, item_tile)
 	self._item_layer.set_cell(map_pos, 0, Vector2i(0, 0))
 	return true
@@ -95,7 +96,7 @@ func rotate_item() -> bool:
 	var item_tile = self._tiles[cube_pos]
 	if item_tile is M_MirrorTile:
 		var mirror_tile: M_MirrorTile = item_tile
-		mirror_tile.rotate()
+		mirror_tile.rotate_clockwise()
 		var a = mirror_tile._normal_dir
 		self._item_layer.set_cell(map_pos, 0, Vector2i(a, 0))
 	else:
@@ -113,21 +114,15 @@ func get_tile(position: Vector3i) -> M_Tile:
 		tile = self._add_tile(M_AirTile.new(position))
 	return tile
 
-func set_light(position: Vector3i, direction: M_Tile.Direction, _light: M_Light) -> void:
-	var x_coord = 0
-	match direction:
-		M_Tile.Direction.UP:
-			x_coord = 0
-		M_Tile.Direction.UP_RIGHT:
-			x_coord = 1
-		M_Tile.Direction.DOWN_RIGHT:
-			x_coord = 2
-		M_Tile.Direction.DOWN:
-			x_coord = 3
-		M_Tile.Direction.DOWN_LEFT:
-			x_coord = 4
-		M_Tile.Direction.UP_LEFT:
-			x_coord = 5
+func _recalculate_light() -> void:
+	self._light_layer.clear()
+	for pos in self._tiles:
+		var tile := self._tiles[pos]
+		if tile is M_LightEmitterTile:
+			print("Starting light output from: ", tile.position)
+			tile.recalculate_light()
 
+func set_light(position: Vector3i, direction: M_Tile.M_Direction, _light: M_Light) -> void:
+	var x_coord = direction % 3
 	var map_pos := self._light_layer.cube_to_map(position)
-	self._light_layer.set_cell(map_pos, 0, Vector2i(x_coord, 0))
+	self._light_layer.set_cell(map_pos, self._lights_source_id, Vector2i(x_coord, 0))

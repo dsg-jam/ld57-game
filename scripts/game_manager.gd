@@ -11,10 +11,6 @@ var _available_items: Dictionary[Global.ItemType, int] = {
 }
 var _selected_items_type: Global.ItemType = Global.ItemType.NONE
 
-class ItemPos:
-	var _pos: Vector2i
-	var _item_type: Global.ItemType
-
 func _ready() -> void:
 	self._tile_manager.checkpoint_reached.connect(self._on_checkpoint_reached)
 	self._setup_ui()

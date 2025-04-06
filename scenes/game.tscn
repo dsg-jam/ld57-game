@@ -1,32 +1,10 @@
-[gd_scene load_steps=10 format=4 uid="uid://pywn3tf5j5pj"]
+[gd_scene load_steps=7 format=4 uid="uid://pywn3tf5j5pj"]
 
-[ext_resource type="Script" uid="uid://ds3sapsqgomdn" path="res://scenes/game_manager.gd" id="1_iywne"]
+[ext_resource type="Script" uid="uid://ds3sapsqgomdn" path="res://scripts/game_manager.gd" id="1_iywne"]
 [ext_resource type="TileSet" uid="uid://h6upodi6txib" path="res://assets/tileset.tres" id="1_lbhrr"]
 [ext_resource type="Script" uid="uid://buj6ft1vvdf2f" path="res://addons/hexagon_tilemaplayer/hexagon_tilemaplayer.gd" id="2_lbhrr"]
-[ext_resource type="Texture2D" uid="uid://bsslk4hlegufp" path="res://assets/arrow.png" id="3_iywne"]
 [ext_resource type="Script" uid="uid://cdpxtku3p6sfy" path="res://scripts/tile_manager.gd" id="5_iywne"]
 [ext_resource type="Script" uid="uid://bf8vaeods1ptt" path="res://scripts/camera.gd" id="6_p57ef"]
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p57ef"]
-texture = ExtResource("3_iywne")
-texture_region_size = Vector2i(64, 64)
-0:1/0 = 0
-1:1/0 = 0
-2:1/0 = 0
-3:1/0 = 0
-5:0/0 = 0
-4:0/0 = 0
-3:0/0 = 0
-2:0/0 = 0
-1:0/0 = 0
-0:0/next_alternative_id = 7
-0:0/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_u5sy4"]
-tile_shape = 3
-tile_offset_axis = 1
-tile_size = Vector2i(64, 54)
-sources/0 = SubResource("TileSetAtlasSource_p57ef")
 
 [sub_resource type="LabelSettings" id="LabelSettings_8cj0n"]
 font_size = 96
@@ -58,8 +36,8 @@ navigation_enabled = false
 script = ExtResource("2_lbhrr")
 
 [node name="LightLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAADAP//AAADAAAAAAA=")
-tile_set = SubResource("TileSet_u5sy4")
+tile_map_data = PackedByteArray("AAADAP//AwACAAAAAAA=")
+tile_set = ExtResource("1_lbhrr")
 collision_enabled = false
 navigation_enabled = false
 script = ExtResource("2_lbhrr")
@@ -70,6 +48,7 @@ _wall_layer = NodePath("../WallLayer")
 _light_layer = NodePath("../LightLayer")
 _item_layer = NodePath("../ItemLayer")
 _event_layer = NodePath("../EventLayer")
+_lights_source_id = 3
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("6_p57ef")

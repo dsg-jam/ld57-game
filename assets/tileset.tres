@@ -1,9 +1,11 @@
-[gd_resource type="TileSet" load_steps=5 format=3 uid="uid://h6upodi6txib"]
+[gd_resource type="TileSet" load_steps=7 format=3 uid="uid://h6upodi6txib"]
 
 [ext_resource type="Texture2D" uid="uid://dkorplxjjikbl" path="res://assets/mirrors.png" id="1_ylah7"]
 [ext_resource type="Texture2D" uid="uid://dteufuw2eqb7i" path="res://assets/walls.png" id="2_fcvr3"]
+[ext_resource type="Texture2D" uid="uid://dhgma4ja3ps7v" path="res://assets/lights.png" id="3_fcvr3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7lii3"]
+resource_name = "mirrors"
 texture = ExtResource("1_ylah7")
 texture_region_size = Vector2i(64, 64)
 0:0/next_alternative_id = 2
@@ -17,6 +19,7 @@ texture_region_size = Vector2i(64, 64)
 5:0/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uyjym"]
+resource_name = "walls"
 texture = ExtResource("2_fcvr3")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
@@ -50,9 +53,18 @@ texture_region_size = Vector2i(64, 64)
 8:2/0 = 0
 9:2/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_80oah"]
+resource_name = "lights"
+texture = ExtResource("3_fcvr3")
+texture_region_size = Vector2i(64, 64)
+1:0/0 = 0
+2:0/0 = 0
+0:0/0 = 0
+
 [resource]
 tile_shape = 3
 tile_offset_axis = 1
 tile_size = Vector2i(64, 54)
 sources/0 = SubResource("TileSetAtlasSource_7lii3")
 sources/1 = SubResource("TileSetAtlasSource_uyjym")
+sources/3 = SubResource("TileSetAtlasSource_80oah")
