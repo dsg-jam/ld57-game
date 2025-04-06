@@ -9,6 +9,8 @@ class_name M_TileManager extends Node
 signal checkpoint_reached
 
 var _tiles: Dictionary[Vector3i, M_Tile]
+var _checkpoints: Array[float]
+var _next_checkpoint = 0
 
 func _ready() -> void:
 	self._load_tiles_from_layers()
@@ -43,7 +45,10 @@ func _load_tiles_from_layers() -> void:
 		var cube_pos := self._event_layer.map_to_cube(map_pos)
 		var event_tile = M_EventTile.new(cube_pos)
 		event_tile.checkpoint_reached.connect(self._on_checkpoint_reached)
+		self._checkpoints.push_back(_event_layer.cube_to_local(cube_pos).y)
 		self._add_tile(event_tile)
+	self._checkpoints.sort()
+	self._on_checkpoint_reached()
 
 	# Load light emitters
 	for map_pos in self._light_layer.get_used_cells():
@@ -55,9 +60,12 @@ func _load_tiles_from_layers() -> void:
 
 	self._recalculate_light()
 
-func _on_checkpoint_reached(pos: Vector3i):
-	var local_pos = self._event_layer.cube_to_local(pos)
-	checkpoint_reached.emit(local_pos.y)
+func _on_checkpoint_reached():
+	if self._next_checkpoint >= len(self._checkpoints):
+		return
+	var y = self._checkpoints[self._next_checkpoint]
+	self._next_checkpoint += 1
+	checkpoint_reached.emit(y)
 
 func set_item(item_type: Global.ItemType) -> bool:
 	var cube_pos = self._item_layer.get_closest_cell_from_mouse()

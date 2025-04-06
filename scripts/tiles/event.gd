@@ -8,5 +8,5 @@ func recalculate_light() -> void:
 		if light.is_black():
 			# We can ignore this light
 			continue
-		checkpoint_reached.emit(self._position)
+		checkpoint_reached.emit()
 		return
