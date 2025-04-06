@@ -51,7 +51,7 @@ func set_item(item_type: Global.ItemType) -> bool:
 	var cube_pos = self._item_layer.get_closest_cell_from_mouse()
 	var map_pos = self._item_layer.cube_to_map(cube_pos)
 	if cube_pos in self._item_tiles.keys():
-		print_debug("already occupied")
+		self.rotate_item()
 		return false
 	if map_pos in self._wall_layer.get_used_cells():
 		print_debug("cell occupied by wall")
