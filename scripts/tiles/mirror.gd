@@ -22,10 +22,10 @@ func _update_reflection_mapping() -> void:
 		self._reflection_mapping[src_dir] = target_dir
 
 func recalculate_light() -> void:
-	self._light_outputs.fill(M_Light.black())
+	var new_outputs := self._light_outputs.duplicate()
 	for dir in self._reflection_mapping:
 		var light := self.get_light_from_dir(dir)
 		if light.is_black(): continue
 		var out_dir := self._reflection_mapping[dir]
-		self._light_outputs[out_dir] = light
-	self.forward_updates_to_outputs()
+		new_outputs[out_dir] = light
+	self.forward_output_diffs(new_outputs)

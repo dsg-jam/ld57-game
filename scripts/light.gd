@@ -13,13 +13,6 @@ enum M_Color {
 	WHITE = RED | GREEN | BLUE,
 }
 
-var strength: int
-var color: M_Color = M_Color.WHITE
-
-func _init(color_: M_Color, strength_: int) -> void:
-	self.color = color_
-	self.strength = strength_
-
 static func _color_name(color_: M_Color) -> String:
 	match color_:
 		M_Color.BLACK: return "BLACK"
@@ -32,15 +25,27 @@ static func _color_name(color_: M_Color) -> String:
 		M_Color.WHITE: return "WHITE"
 		_: return "UNKNOWN"
 
+var _id: int
+var id: int:
+	get: return self._id
+
+var strength: int
+var color: M_Color = M_Color.WHITE
+
+func _init(id_: int, color_: M_Color, strength_: int) -> void:
+	self.color = color_
+	self.strength = strength_
+	self._id = id_
+
 func _to_string() -> String:
-	return "%s(%d)" % [_color_name(self.color), self.strength]
+	return "%s(%d)@%d" % [_color_name(self.color), self.strength, self._id]
 
 static func black() -> M_Light:
-	return M_Light.new(M_Color.BLACK, 0)
+	return M_Light.new(-1, M_Color.BLACK, 0)
 
 func is_black() -> bool:
 	return self.color == M_Color.BLACK || self.strength == 0
 
 func weaken() -> M_Light:
 	var new_strength: int = max(self.strength - 1, 0)
-	return M_Light.new(self.color, new_strength)
+	return M_Light.new(self._id, self.color, new_strength)

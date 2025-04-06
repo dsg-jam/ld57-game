@@ -60,15 +60,28 @@ func get_light_from_dir(dir: M_Direction) -> M_Light:
 func get_light_output_in_dir(dir: M_Direction) -> M_Light:
 	return self._light_outputs[dir]
 
+func reset_light_calculation() -> void:
+	self._light_outputs.fill(M_Light.black())
+
 func recalculate_light() -> void:
 	push_error("recalculate_light() not implemented in " + self._class_name())
 
-func forward_updates_to_outputs() -> void:	
+func forward_output_diffs(new_outputs: Array[M_Light]) -> bool:
+	var triggered_update := false
 	for dir in M_Direction.values():
-		if self._light_outputs[dir].is_black():
+		var old_output := self._light_outputs[dir]
+		var new_output := new_outputs[dir]
+		if old_output.id == new_output.id:
+			#if not (old_output.is_black() and new_output.is_black()):
+				#print(self, ": stopped light recursion: ", old_output, " == ", new_output)
+			continue
+		self._light_outputs[dir] = new_output
+		if new_output.is_black():
 			continue
 		var dir_vec := direction_to_vec(dir)
 		var tile := self.tile_manager.get_tile(self.position + dir_vec)
 		if not tile: continue
-		print(self, ": forwarding update ", M_Direction.keys()[dir], " to ", tile)
+		#print(self, ": forwarding update ", M_Direction.keys()[dir], " to ", tile)
 		tile.recalculate_light()
+		triggered_update = true
+	return triggered_update

@@ -4,7 +4,7 @@ class_name ItemButton extends Control
 @export var _counter_label: Label
 
 signal button_pressed
-signal counter_updated
+#signal counter_updated
 
 var _type: Global.ItemType
 

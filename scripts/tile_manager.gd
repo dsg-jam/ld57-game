@@ -100,6 +100,7 @@ func remove_item() -> Global.ItemType:
 	var item_type = Global.ItemType.NONE
 	if tile is M_MirrorTile:
 		item_type = Global.ItemType.MIRROR
+	self._recalculate_light()
 	return item_type
 
 func rotate_item() -> bool:
@@ -126,12 +127,15 @@ func get_tile(position: Vector3i) -> M_Tile:
 	return tile
 
 func _recalculate_light() -> void:
+	for tile_ in self._tiles.values():
+		var tile: M_Tile = tile_
+		tile.reset_light_calculation()
+
 	self._light_layer.clear()
-	for pos in self._tiles:
-		var tile := self._tiles[pos]
+	for tile in self._tiles.values():
 		if tile is M_LightEmitterTile:
 			print("Starting light output from: ", tile.position)
-			tile.recalculate_light()
+			tile.start_recalculate_light_chain()
 
 func set_light(position: Vector3i, direction: M_Tile.M_Direction, _light: M_Light) -> void:
 	var x_coord = direction % 3
