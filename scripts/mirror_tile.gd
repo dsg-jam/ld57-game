@@ -6,6 +6,10 @@ func _init(position_: Vector3i, normal_dir_: Direction) -> void:
 	super (position_)
 	self._normal_dir = normal_dir_
 
+func rotate() -> Direction:
+	self._normal_dir = (self._normal_dir + 1) % 6
+	return self._normal_dir
+
 func on_incoming_light(source: M_Tile, light: M_Light) -> void:
 	var dir_vec := self._position - source.position
 	var dir := vec_to_direction(dir_vec)

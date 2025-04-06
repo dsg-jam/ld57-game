@@ -59,7 +59,6 @@ func set_item(item_type: Global.ItemType) -> bool:
 	var item_tile: M_Tile
 	match item_type:
 		Global.ItemType.MIRROR:
-			# TODO: change second argument when changes have been merged
 			item_tile = M_MirrorTile.new(cube_pos, M_Tile.Direction.UP_RIGHT)
 	self._item_tiles.set(cube_pos, item_tile)
 	self._item_layer.set_cell(map_pos, 0, Vector2i(0, 0))
@@ -79,6 +78,22 @@ func remove_item() -> Global.ItemType:
 	if item_tile is M_MirrorTile:
 		item_type = Global.ItemType.MIRROR
 	return item_type
+
+func rotate_item() -> bool:
+	var cube_pos = self._item_layer.get_closest_cell_from_mouse()
+	var map_pos = self._item_layer.cube_to_map(cube_pos)
+	if not (cube_pos in self._item_tiles.keys()):
+		print_debug("this cell does not contain an item")
+		return false
+	var item_tile = self._item_tiles[cube_pos]
+	if item_tile is M_MirrorTile:
+		var mirror_tile: M_MirrorTile = item_tile
+		mirror_tile.rotate()
+		var a = mirror_tile._normal_dir
+		self._item_layer.set_cell(map_pos, 0, Vector2i(a, 0))
+	else:
+		return false
+	return true
 
 func get_tile(position: Vector3i) -> M_Tile:
 	var tile: M_Tile = self._tiles.get(position)

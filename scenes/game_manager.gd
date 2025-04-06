@@ -21,8 +21,7 @@ func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		match self._selected_items_type:
 			Global.ItemType.NONE:
-				# TODO: when tile is an item, rotate it
-				pass
+				self._tile_manager.rotate_item()
 			_:
 				self._place_item(self._selected_items_type)
 		self._selected_items_type = Global.ItemType.NONE
