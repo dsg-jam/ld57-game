@@ -6,8 +6,6 @@ class_name M_TileManager extends Node
 
 var _tiles: Dictionary[Vector3i, M_Tile]
 
-var _item_tiles: Dictionary[Vector3i, M_Tile]
-
 func _ready() -> void:
 	self._load_tiles()
 
@@ -50,7 +48,7 @@ func _load_tiles() -> void:
 func set_item(item_type: Global.ItemType) -> bool:
 	var cube_pos = self._item_layer.get_closest_cell_from_mouse()
 	var map_pos = self._item_layer.cube_to_map(cube_pos)
-	if cube_pos in self._item_tiles.keys():
+	if cube_pos in self._tiles.keys():
 		return false
 	if map_pos in self._wall_layer.get_used_cells():
 		return false
@@ -58,18 +56,18 @@ func set_item(item_type: Global.ItemType) -> bool:
 	match item_type:
 		Global.ItemType.MIRROR:
 			item_tile = M_MirrorTile.new(cube_pos, M_Tile.Direction.UP_RIGHT)
-	self._item_tiles.set(cube_pos, item_tile)
+	self._tiles.set(cube_pos, item_tile)
 	self._item_layer.set_cell(map_pos, 0, Vector2i(0, 0))
 	return true
 
 func remove_item() -> Global.ItemType:
 	var cube_pos = self._item_layer.get_closest_cell_from_mouse()
 	var map_pos = self._item_layer.cube_to_map(cube_pos)
-	if not (cube_pos in self._item_tiles.keys()):
+	if not (cube_pos in self._tiles.keys()):
 		return Global.ItemType.NONE
-	var item_tile = self._item_tiles[cube_pos]
+	var item_tile = self._tiles[cube_pos]
 	# TODO: erase tile
-	self._item_tiles.erase(cube_pos)
+	self._tiles.erase(cube_pos)
 	self._item_layer.erase_cell(map_pos)
 	var item_type = Global.ItemType.NONE
 	if item_tile is M_MirrorTile:
@@ -79,9 +77,9 @@ func remove_item() -> Global.ItemType:
 func rotate_item() -> bool:
 	var cube_pos = self._item_layer.get_closest_cell_from_mouse()
 	var map_pos = self._item_layer.cube_to_map(cube_pos)
-	if not (cube_pos in self._item_tiles.keys()):
+	if not (cube_pos in self._tiles.keys()):
 		return false
-	var item_tile = self._item_tiles[cube_pos]
+	var item_tile = self._tiles[cube_pos]
 	if item_tile is M_MirrorTile:
 		var mirror_tile: M_MirrorTile = item_tile
 		mirror_tile.rotate()
