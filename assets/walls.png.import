@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://da6a2u4tc8oh"
-path="res://.godot/imported/tilemap.png-5e61b4f08267e3455a4ee95d454c23fa.ctex"
+uid="uid://dteufuw2eqb7i"
+path="res://.godot/imported/walls.png-48f7469b757eaad7a2e6af693f5f4f9b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/tilemap.png"
-dest_files=["res://.godot/imported/tilemap.png-5e61b4f08267e3455a4ee95d454c23fa.ctex"]
+source_file="res://assets/walls.png"
+dest_files=["res://.godot/imported/walls.png-48f7469b757eaad7a2e6af693f5f4f9b.ctex"]
 
 [params]
 
@@ -25,7 +25,7 @@ mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
-process/fix_alpha_border=false
+process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false
 process/hdr_as_srgb=false
