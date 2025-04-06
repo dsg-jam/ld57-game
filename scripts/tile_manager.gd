@@ -116,11 +116,11 @@ func set_light(position: Vector3i, direction: M_Tile.Direction, _light: M_Light)
 		M_Tile.Direction.DOWN_RIGHT:
 			x_coord = 2
 		M_Tile.Direction.DOWN:
-			x_coord = 3
+			x_coord = 0
 		M_Tile.Direction.DOWN_LEFT:
-			x_coord = 4
+			x_coord = 1
 		M_Tile.Direction.UP_LEFT:
-			x_coord = 5
+			x_coord = 2
 
 	var map_pos := self._light_layer.cube_to_map(position)
-	self._light_layer.set_cell(map_pos, 0, Vector2i(x_coord, 0))
+	self._light_layer.set_cell(map_pos, 1, Vector2i(x_coord, 0))
