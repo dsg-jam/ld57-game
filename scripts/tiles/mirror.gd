@@ -28,4 +28,7 @@ func recalculate_light() -> void:
 		if light.is_black(): continue
 		var out_dir := self._reflection_mapping[dir]
 		new_outputs[out_dir] = light
+		if not light.is_black():
+			# TODO: do this differently!
+			self.tile_manager.set_light(self.position, out_dir, light)
 	self.forward_output_diffs(new_outputs)

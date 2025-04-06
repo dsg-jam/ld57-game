@@ -28,6 +28,9 @@ func recalculate_light() -> void:
 	var new_outputs := self._light_outputs.duplicate()
 	new_outputs.fill(M_Light.black())
 	var light := self.get_light_from_dir(self._normal_dir)
+	# TODO: do this differently!
+	self.tile_manager.set_light(self.position, self._normal_dir, light)
+
 	new_outputs[self._red_dir] = light.split_red()
 	new_outputs[self._green_dir] = light.split_green()
 	new_outputs[self._blue_dir] = light.split_blue()
