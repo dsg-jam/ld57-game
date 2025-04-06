@@ -52,11 +52,15 @@ func _load_tiles_from_layers() -> void:
 
 	# Load light emitters
 	for map_pos in self._light_layer.get_used_cells():
+		var atlas_coords := self._light_layer.get_cell_atlas_coords(map_pos)
+		if atlas_coords.x > 3:
+			# Only the first three tiles can be emitters
+			continue
 		var cube_pos := self._light_layer.map_to_cube(map_pos)
-		var atlas_coords := self._item_layer.get_cell_atlas_coords(map_pos)
 		# The x component of the atlas coords corresponds to the direction enum
-		var direction := atlas_coords.x as M_Tile.M_Direction
-		self._add_tile(M_LightEmitterTile.from_layer(cube_pos, direction))
+		var axis := atlas_coords.x as M_Tile.M_Direction
+		var color := (atlas_coords.y + 1) as M_Light.M_Color
+		self._add_tile(M_LightEmitterTile.new(cube_pos, color, axis))
 
 	self._recalculate_light()
 
@@ -134,10 +138,15 @@ func _recalculate_light() -> void:
 	self._light_layer.clear()
 	for tile in self._tiles.values():
 		if tile is M_LightEmitterTile:
-			print("Starting light output from: ", tile.position)
 			tile.start_recalculate_light_chain()
 
-func set_light(position: Vector3i, direction: M_Tile.M_Direction, _light: M_Light) -> void:
-	var x_coord = direction % 3
+func set_light(position: Vector3i, direction: M_Tile.M_Direction, light: M_Light) -> void:
 	var map_pos := self._light_layer.cube_to_map(position)
-	self._light_layer.set_cell(map_pos, self._lights_source_id, Vector2i(x_coord, 0))
+	if light.is_black():
+		self._light_layer.erase_cell(map_pos)
+		return
+
+	# The x axis is for the cardinal directions and the
+	# y axis contains the various colours in the same order as the bitfield.
+	var atlas_coords := Vector2i(direction % 3, light.color - 1)
+	self._light_layer.set_cell(map_pos, self._lights_source_id, atlas_coords)
