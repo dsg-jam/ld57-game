@@ -19,11 +19,7 @@ func _ready() -> void:
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		match self._selected_items_type:
-			Global.ItemType.NONE:
-				self._tile_manager.rotate_item()
-			_:
-				self._place_item(self._selected_items_type)
+		self._place_item(self._selected_items_type)
 	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 		# Delete item if applicable
 		self._remove_item()
@@ -36,6 +32,8 @@ func _setup_ui():
 		item_button.button_pressed.connect(_on_item_button_pressed)
 
 func _consume_item(item_type: Global.ItemType) -> bool:
+	if not (item_type in self._available_items):
+		self._available_items[item_type] = 0
 	if self._available_items[item_type] <= 0:
 		return false
 	self._available_items[item_type] -= 1
@@ -45,8 +43,8 @@ func _produce_item(item_type: Global.ItemType):
 	self._available_items[item_type] += 1
 
 func _place_item(item_type: Global.ItemType):
+	self._tile_manager.rotate_item()
 	if not self._consume_item(item_type):
-		print_debug("no more items of this kind")
 		return
 	if not self._tile_manager.set_item(item_type):
 		self._produce_item(item_type)
