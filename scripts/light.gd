@@ -38,3 +38,12 @@ func is_black() -> bool:
 func weaken() -> M_Light:
 	var new_strength: int = max(self.strength - 1, 0)
 	return M_Light.new(self._id, self.color, new_strength)
+
+func split_red() -> M_Light:
+	return M_Light.new(self._id, self.color & M_Color.RED, self.strength)
+
+func split_green() -> M_Light:
+	return M_Light.new(self._id, self.color & M_Color.GREEN, self.strength)
+
+func split_blue() -> M_Light:
+	return M_Light.new(self._id, self.color & M_Color.BLUE, self.strength)

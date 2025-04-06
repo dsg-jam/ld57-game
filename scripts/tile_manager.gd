@@ -62,6 +62,10 @@ func _load_tiles_from_layers() -> void:
 		var color := (atlas_coords.y + 1) as M_Light.M_Color
 		self._add_tile(M_LightEmitterTile.new(cube_pos, color, axis))
 
+	# TODO:
+	# HARD-CODED splitter
+	self._add_tile(M_SplitterTile.new(Vector3i(3, 1, -4), M_Tile.M_Direction.UP))
+
 	self._recalculate_light()
 
 func _on_checkpoint_reached():

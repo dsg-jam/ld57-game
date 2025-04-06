@@ -30,14 +30,14 @@ navigation_enabled = false
 script = ExtResource("2_lbhrr")
 
 [node name="ItemLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAADAAIAAAAEAAAAAAAAAAQAAAABAAAAAAAAAAUAAAAEAAAAAAD8/wcAAAAFAAAAAAD7/wYAAAAAAAAAAAD7/wIAAAABAAAAAAD9/wYAAAABAAAAAAA=")
+tile_map_data = PackedByteArray("AAAAAAQAAAABAAAAAAAAAAUAAAAEAAAAAAD8/wcAAAAFAAAAAAD7/wYAAAAAAAAAAAD7/wIAAAABAAAAAAD9/wYAAAABAAAAAAADAAIAAAAFAAAAAQA=")
 tile_set = ExtResource("1_lbhrr")
 collision_enabled = false
 navigation_enabled = false
 script = ExtResource("2_lbhrr")
 
 [node name="LightLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAADAP//AwACAAQAAAA=")
+tile_map_data = PackedByteArray("AAADAP//AwACAAYAAAA=")
 tile_set = ExtResource("1_lbhrr")
 collision_enabled = false
 navigation_enabled = false
