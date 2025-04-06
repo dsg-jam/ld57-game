@@ -1,6 +1,6 @@
 extends Node
 
-@export var _light_layer: HexagonTileMapLayer
+#@export var _light_layer: HexagonTileMapLayer
 @export var _item_container: Node
 @export var _item_layer: HexagonTileMapLayer
 
@@ -18,9 +18,6 @@ var _item_positions: Dictionary[Vector2i, Global.ItemType] = {}
 
 func _ready() -> void:
 	self._setup_ui()
-	
-func _process(delta: float) -> void:
-	pass
 
 func _input(event):
 	var cube_pos = self._item_layer.get_closest_cell_from_mouse()

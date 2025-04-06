@@ -1,6 +1,6 @@
 extends Camera2D
 
-const SCROLL_SPEED: int = 3.0
+const SCROLL_SPEED: int = 3
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
