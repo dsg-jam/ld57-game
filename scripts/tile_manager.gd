@@ -2,6 +2,7 @@ class_name M_TileManager extends Node
 
 @export var _wall_layer: HexagonTileMapLayer
 @export var _light_layer: HexagonTileMapLayer
+@export var _mirror_layer: HexagonTileMapLayer
 
 var _tiles: Dictionary[Vector3i, M_Tile]
 

@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://xqdbeob73qth"]
+
+[ext_resource type="Script" uid="uid://uedaf4ucvyr2" path="res://scripts/ui/item_button.gd" id="1_s37ie"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lbhrr"]
+bg_color = Color(0.568421, 0.561719, 0.896121, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="ItemButton" type="Panel" node_paths=PackedStringArray("button")]
+custom_minimum_size = Vector2(64, 0)
+size_flags_horizontal = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_lbhrr")
+script = ExtResource("1_s37ie")
+button = NodePath("Button")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Mirror
+"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

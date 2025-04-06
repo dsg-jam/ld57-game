@@ -1,27 +1,26 @@
-[gd_scene load_steps=8 format=4 uid="uid://pywn3tf5j5pj"]
+[gd_scene load_steps=10 format=4 uid="uid://pywn3tf5j5pj"]
 
+[ext_resource type="Script" uid="uid://ds3sapsqgomdn" path="res://scenes/game_manager.gd" id="1_iywne"]
 [ext_resource type="TileSet" uid="uid://h6upodi6txib" path="res://assets/wall_tileset.tres" id="1_lbhrr"]
 [ext_resource type="Script" uid="uid://buj6ft1vvdf2f" path="res://addons/hexagon_tilemaplayer/hexagon_tilemaplayer.gd" id="2_lbhrr"]
 [ext_resource type="Texture2D" uid="uid://bsslk4hlegufp" path="res://assets/arrow.png" id="3_iywne"]
 [ext_resource type="Script" uid="uid://cdpxtku3p6sfy" path="res://scripts/tile_manager.gd" id="5_iywne"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_8cj0n"]
-font_size = 96
+[ext_resource type="Script" uid="uid://bf8vaeods1ptt" path="res://scripts/camera.gd" id="6_p57ef"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p57ef"]
 texture = ExtResource("3_iywne")
 texture_region_size = Vector2i(64, 64)
-0:0/next_alternative_id = 4
-0:0/0 = 0
-1:0/0 = 0
-2:0/0 = 0
-3:0/0 = 0
-4:0/0 = 0
-5:0/0 = 0
 0:1/0 = 0
 1:1/0 = 0
 2:1/0 = 0
 3:1/0 = 0
+5:0/0 = 0
+4:0/0 = 0
+3:0/0 = 0
+2:0/0 = 0
+1:0/0 = 0
+0:0/next_alternative_id = 7
+0:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_u5sy4"]
 tile_shape = 3
@@ -29,35 +28,25 @@ tile_offset_axis = 1
 tile_size = Vector2i(64, 54)
 sources/0 = SubResource("TileSetAtlasSource_p57ef")
 
-[node name="Node" type="Node"]
+[sub_resource type="LabelSettings" id="LabelSettings_8cj0n"]
+font_size = 96
 
-[node name="Camera2D" type="Camera2D" parent="."]
-
-[node name="Menu" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-
-[node name="Label" type="Label" parent="Menu"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -67.5
-offset_top = -11.5
-offset_right = 67.5
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "Welcome to LD57"
-label_settings = SubResource("LabelSettings_8cj0n")
-
-[node name="Camera2D" type="Camera2D" parent="Menu"]
+[node name="Node" type="Node" node_paths=PackedStringArray("_light_layer", "_item_container", "_mirror_layer")]
+script = ExtResource("1_iywne")
+_light_layer = NodePath("LightLayer")
+_item_container = NodePath("CanvasLayer/Menu/VBoxContainer/Panel/ItemContainer")
+_mirror_layer = NodePath("MirrorLayer")
 
 [node name="WallLayer" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAABAAAAAQAAAAAAAAAAAAEAAQAAAAAAAAAAAAIAAQAAAAAAAAD//wIAAQABAAAAAAD+/wMAAQAAAAAAAAABAAEAAQACAAAAAAABAAIAAQACAAAAAAD//wEAAQACAAAAAAD+/wIAAQACAAAAAAD9/wIAAQACAAAAAAD8/wMAAQACAAAAAAD9/wMAAQABAAAAAAD+/wQAAQABAAAAAAD9/wQAAQABAAAAAAD//wMAAQAAAAAAAAD//wQAAQAAAAAAAAD+/wUAAQAAAAAAAAD9/wUAAQAAAAAAAAD8/wUAAQAAAAAAAAD8/wQAAQAAAAAAAAD9/wcAAQACAAAAAAD+/wcAAQAAAAAAAAD//wYAAQAAAAAAAAAAAAYAAQAAAAAAAAABAAYAAQACAAAAAAABAAUAAQACAAAAAAABAAQAAQAAAAAAAAACAAQAAQAAAAAAAAADAAQAAQAAAAAAAAAEAAQAAQAAAAAAAAAFAAEAAQACAAAAAAACAAUAAQACAAAAAAADAAUAAQABAAAAAAAEAAUAAQABAAAAAAAFAAQAAQABAAAAAAAFAAMAAQABAAAAAAAAAAAAAQACAAAAAAD//wAAAQACAAAAAAD+/wAAAQACAAAAAAD9/wAAAQACAAAAAAD8/wAAAQACAAAAAAD8/wEAAQACAAAAAAD7/wAAAQACAAAAAAD6/wEAAQACAAAAAAD5/wAAAQACAAAAAAD4/wEAAQACAAAAAAD4/wIAAQACAAAAAAD4/wMAAQACAAAAAAD4/wQAAQACAAAAAAD4/wUAAQACAAAAAAD5/wUAAQACAAAAAAD4/wYAAQACAAAAAAD5/wYAAQACAAAAAAD4/wcAAQACAAAAAAD5/wcAAQACAAAAAAD5/wgAAQACAAAAAAD4/wgAAQACAAAAAAD6/wgAAQAAAAAAAAD7/wcAAQACAAAAAAD8/wgAAQAAAAAAAAD+/wgAAQAAAAAAAAD//wcAAQACAAAAAAAAAAgAAQAAAAAAAAABAAgAAQAAAAAAAAACAAgAAQACAAAAAAADAAgAAQACAAAAAAAEAAgAAQACAAAAAAAFAAgAAQACAAAAAAAGAAgAAQACAAAAAAAGAAcAAQACAAAAAAAGAAYAAQACAAAAAAAGAAUAAQACAAAAAAAGAAQAAQACAAAAAAAGAAMAAQACAAAAAAAGAAIAAQACAAAAAAAGAAEAAQACAAAAAAAFAAAAAQACAAAAAAAGAAAAAQACAAAAAAAHAP//AQACAAAAAAAHAAAAAQACAAAAAAAIAAEAAQACAAAAAAAHAAEAAQACAAAAAAAHAAIAAQACAAAAAAAIAAMAAQACAAAAAAAIAAQAAQACAAAAAAAIAAUAAQACAAAAAAAHAAUAAQACAAAAAAAIAAYAAQACAAAAAAAHAAYAAQACAAAAAAAHAAcAAQACAAAAAAAHAAQAAQACAAAAAAAHAAMAAQACAAAAAAAFAAIAAQACAAAAAAAFAAUAAQACAAAAAAAFAAYAAQACAAAAAAAEAAcAAQACAAAAAAADAAcAAQABAAAAAAADAAYAAQABAAAAAAAEAAYAAQABAAAAAAAFAAcAAQACAAAAAAABAAcAAQACAAAAAAACAAcAAQACAAAAAAAAAAcAAQACAAAAAAACAAYAAQACAAAAAAD6/wcAAQACAAAAAAD6/wYAAQACAAAAAAD6/wUAAQACAAAAAAD5/wQAAQAAAAAAAAD5/wMAAQAAAAAAAAD6/wMAAQAAAAAAAAD7/wEAAQAAAAAAAAD6/wIAAQAAAAAAAAD5/wIAAQAAAAAAAAD5/wEAAQAAAAAAAAD7/wgAAQAAAAAAAAD9/wgAAQAAAAAAAAD//wgAAQAAAAAAAAAAAAkAAQAAAAAAAAA=")
 tile_set = ExtResource("1_lbhrr")
+collision_enabled = false
+navigation_enabled = false
+script = ExtResource("2_lbhrr")
+
+[node name="MirrorLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAADAP//AAADAAAAAAADAAIAAAACAAEAAAAAAAQAAAAAAAEAAAA=")
+tile_set = SubResource("TileSet_u5sy4")
 collision_enabled = false
 navigation_enabled = false
 script = ExtResource("2_lbhrr")
@@ -69,7 +58,52 @@ collision_enabled = false
 navigation_enabled = false
 script = ExtResource("2_lbhrr")
 
-[node name="TileManager" type="Node" parent="." node_paths=PackedStringArray("_wall_layer", "_light_layer")]
+[node name="TileManager" type="Node" parent="." node_paths=PackedStringArray("_wall_layer", "_light_layer", "_mirror_layer")]
 script = ExtResource("5_iywne")
 _wall_layer = NodePath("../WallLayer")
 _light_layer = NodePath("../LightLayer")
+_mirror_layer = NodePath("../MirrorLayer")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+script = ExtResource("6_p57ef")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Menu" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/Menu/VBoxContainer"]
+layout_mode = 2
+text = "Welcome to LD57"
+label_settings = SubResource("LabelSettings_8cj0n")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel" type="Panel" parent="CanvasLayer/Menu/VBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_vertical = 10
+
+[node name="ItemContainer" type="HBoxContainer" parent="CanvasLayer/Menu/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
