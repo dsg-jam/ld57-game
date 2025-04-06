@@ -1,8 +1,8 @@
 extends Node
 
-#@export var _light_layer: HexagonTileMapLayer
 @export var _item_container: Node
 @export var _tile_manager: M_TileManager
+@export var _camera: M_Camera
 
 var _item_button_prefab = preload("res://prefabs/hud/item_button.tscn")
 var _item_buttons: Dictionary[Global.ItemType, ItemButton]
@@ -12,7 +12,6 @@ var _available_items: Dictionary[Global.ItemType, int] = {
 var _selected_items_type: Global.ItemType = Global.ItemType.NONE
 
 func _ready() -> void:
-	self._tile_manager.checkpoint_reached.connect(self._on_checkpoint_reached)
 	self._setup_ui()
 
 func _input(event):
@@ -65,5 +64,5 @@ func _remove_item():
 func _on_item_button_pressed(item_type: Global.ItemType):
 	self._selected_items_type = item_type
 
-func _on_checkpoint_reached(y: float):
-	print(y)
+func _on_tile_manager_checkpoint_reached(y: float) -> void:
+	self._camera.set_max(y)

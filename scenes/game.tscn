@@ -9,13 +9,14 @@
 [sub_resource type="LabelSettings" id="LabelSettings_8cj0n"]
 font_size = 96
 
-[node name="Node" type="Node" node_paths=PackedStringArray("_item_container", "_tile_manager")]
+[node name="Node" type="Node" node_paths=PackedStringArray("_item_container", "_tile_manager", "_camera")]
 script = ExtResource("1_iywne")
 _item_container = NodePath("CanvasLayer/Menu/VBoxContainer/Panel/ItemContainer")
 _tile_manager = NodePath("TileManager")
+_camera = NodePath("Camera2D")
 
 [node name="EventLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAD+/wwAAAAAAAAAAQD9/wYAAAAAAAAAAQA=")
+tile_map_data = PackedByteArray("AAD9/wsAAAAAAAAAAQA=")
 tile_set = ExtResource("1_lbhrr")
 collision_enabled = false
 navigation_enabled = false
@@ -29,7 +30,7 @@ navigation_enabled = false
 script = ExtResource("2_lbhrr")
 
 [node name="ItemLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAADAAIAAAAEAAAAAAAAAAQAAAABAAAAAAAAAAUAAAAEAAAAAAD8/wcAAAAFAAAAAAD7/wYAAAAAAAAAAAD7/wIAAAABAAAAAAA=")
+tile_map_data = PackedByteArray("AAADAAIAAAAEAAAAAAAAAAQAAAABAAAAAAAAAAUAAAAEAAAAAAD8/wcAAAAFAAAAAAD7/wYAAAAAAAAAAAD7/wIAAAABAAAAAAD9/wYAAAABAAAAAAA=")
 tile_set = ExtResource("1_lbhrr")
 collision_enabled = false
 navigation_enabled = false
@@ -93,3 +94,5 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
+
+[connection signal="checkpoint_reached" from="TileManager" to="." method="_on_tile_manager_checkpoint_reached"]

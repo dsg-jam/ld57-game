@@ -56,8 +56,8 @@ func _load_tiles_from_layers() -> void:
 	self._recalculate_light()
 
 func _on_checkpoint_reached(pos: Vector3i):
-	var map_pos = self._event_layer.cube_to_map(pos)
-	checkpoint_reached.emit(map_pos.y)
+	var local_pos = self._event_layer.cube_to_local(pos)
+	checkpoint_reached.emit(local_pos.y)
 
 func set_item(item_type: Global.ItemType) -> bool:
 	var cube_pos = self._item_layer.get_closest_cell_from_mouse()
