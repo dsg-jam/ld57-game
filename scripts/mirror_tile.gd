@@ -7,7 +7,7 @@ func _init(position_: Vector3i, normal_dir_: Direction) -> void:
 	self._normal_dir = normal_dir_
 
 func rotate() -> Direction:
-	self._normal_dir = (self._normal_dir + 1) % 6
+	self._normal_dir = ((self._normal_dir + 1) % 6) as Direction
 	return self._normal_dir
 
 func on_incoming_light(source: M_Tile, light: M_Light) -> void:
