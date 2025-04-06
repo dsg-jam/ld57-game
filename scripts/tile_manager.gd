@@ -65,6 +65,7 @@ func _load_tiles_from_layers() -> void:
 	# TODO:
 	# HARD-CODED splitter
 	self._add_tile(M_SplitterTile.new(Vector3i(3, 1, -4), M_Tile.M_Direction.UP))
+	self._add_tile(M_CombinerTile.new(Vector3i(0, 4, -4), M_Tile.M_Direction.DOWN))
 
 	self._recalculate_light()
 

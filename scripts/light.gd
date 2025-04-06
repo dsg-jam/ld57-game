@@ -32,6 +32,9 @@ func _to_string() -> String:
 static func black() -> M_Light:
 	return M_Light.new(-1, M_Color.BLACK, 0)
 
+static func combine(a: M_Light, b: M_Light) -> M_Light:
+	return M_Light.new(a.id + b.id, a.color | b.color, max(a.strength, b.strength))
+
 func is_black() -> bool:
 	return self.color == M_Color.BLACK || self.strength <= 0
 
