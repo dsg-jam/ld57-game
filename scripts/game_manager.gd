@@ -7,7 +7,7 @@ extends Node
 var _item_button_prefab = preload("res://prefabs/hud/item_button.tscn")
 var _item_buttons: Dictionary[Global.ItemType, ItemButton]
 var _available_items: Dictionary[Global.ItemType, int] = {
-	Global.ItemType.MIRROR: 26,
+	Global.ItemType.MIRROR: 25,
 	Global.ItemType.SPLITTER: 0,
 	Global.ItemType.COMBINER: 0,
 }

@@ -41,7 +41,7 @@ navigation_enabled = false
 script = ExtResource("2_lbhrr")
 
 [node name="EventLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAACAAoAAAABAAMAAAD//xcAAAABAAMAAAA=")
+tile_map_data = PackedByteArray("AAACAAoAAAABAAMAAAD//xcAAAABAAMAAAAAACMAAAABAAMAAAA=")
 tile_set = ExtResource("1_lbhrr")
 collision_enabled = false
 navigation_enabled = false
