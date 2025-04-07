@@ -67,7 +67,6 @@ _wall_layer = NodePath("../WallLayer")
 _light_layer = NodePath("../LightLayer")
 _item_layer = NodePath("../ItemLayer")
 _event_layer = NodePath("../EventLayer")
-_lights_source_id = 3
 
 [node name="Camera2D" type="Camera2D" parent="."]
 script = ExtResource("6_p57ef")
@@ -98,6 +97,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 6
 size_flags_vertical = 6
+mouse_filter = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Menu"]
 layout_mode = 1

@@ -16,10 +16,12 @@ var _selected_items_type: Global.ItemType = Global.ItemType.NONE
 func _ready() -> void:
 	self._setup_ui()
 
-func _input(event):
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+func _unhandled_input(event) -> void:
+	if not event is InputEventMouseButton:
+		return
+	if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		self._place_item(self._selected_items_type)
-	elif event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
+	elif event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
 		# Delete item if applicable
 		self._remove_item()
 	self._update_counters()
@@ -31,6 +33,7 @@ func _setup_ui():
 		item_button.setup(item_type)
 		item_button.button_pressed.connect(_on_item_button_pressed)
 		self._item_buttons.set(item_type, item_button)
+	self._update_counters()
 
 func _update_counters():
 	for item_type in self._item_buttons.keys():
