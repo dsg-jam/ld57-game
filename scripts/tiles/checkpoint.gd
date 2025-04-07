@@ -3,7 +3,7 @@ class_name M_CheckpointTile extends M_Tile
 signal checkpoint_reached
 
 func recalculate_light() -> void:
-	var resulting_color := M_Light.M_Color.BLACK
+	var resulting_color: int = M_Light.M_Color.BLACK
 	for dir in M_Direction.values():
 		var light := self.get_light_from_dir(dir)
 		if light.is_black():
