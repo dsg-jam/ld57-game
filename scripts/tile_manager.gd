@@ -46,7 +46,7 @@ func _load_tiles_from_layers() -> void:
 	# Load events
 	for map_pos in self._event_layer.get_used_cells():
 		var cube_pos := self._event_layer.map_to_cube(map_pos)
-		var event_tile = M_EventTile.new(cube_pos)
+		var event_tile = M_CheckpointTile.new(cube_pos)
 		event_tile.checkpoint_reached.connect(self._on_checkpoint_reached)
 		self._checkpoints.push_back(_event_layer.cube_to_local(cube_pos).y)
 		self._add_tile(event_tile)
@@ -111,8 +111,10 @@ func remove_item() -> Global.ItemType:
 	# TODO: erase tile
 	self._tiles.erase(cube_pos)
 	self._item_layer.erase_cell(map_pos)
+	var item_type := tile.item_type
+	tile.free()
 	self._recalculate_light()
-	return tile.item_type
+	return item_type
 
 func rotate_item() -> bool:
 	var cube_pos := self._item_layer.get_closest_cell_from_mouse()

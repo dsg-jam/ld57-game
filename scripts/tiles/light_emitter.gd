@@ -5,7 +5,7 @@ var _emitter_outputs: Array[M_Light]
 
 func _init(position_: Vector3i, color: M_Light.M_Color, axis: M_Direction) -> void:
 	super(position_)
-	self._light = M_Light.new(self.get_instance_id(), color, 30)
+	self._light = M_Light.new(self.get_instance_id(), color)
 	self._emitter_outputs = self._light_outputs.duplicate()
 
 	# Emit light in both directions on the axis
