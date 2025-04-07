@@ -85,6 +85,7 @@ _event_layer = NodePath("../EventLayer")
 _lights_source_id = 3
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, 255)
 script = ExtResource("6_p57ef")
 
 [node name="Label" type="Label" parent="."]
@@ -97,7 +98,7 @@ offset_right = 1.0
 offset_bottom = -63.0
 grow_horizontal = 2
 size_flags_horizontal = 4
-text = "   Illuminate the    Depths!"
+text = "Illuminate  the     Depths!"
 label_settings = SubResource("LabelSettings_8cj0n")
 horizontal_alignment = 1
 vertical_alignment = 1
