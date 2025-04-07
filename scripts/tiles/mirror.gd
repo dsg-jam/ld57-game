@@ -5,6 +5,7 @@ var _reflection_mapping: Dictionary[M_Direction, M_Direction]
 
 func _init(position_: Vector3i, normal_dir_: M_Direction) -> void:
 	super (position_)
+	self.item_type = Global.ItemType.MIRROR
 	self._normal_dir = normal_dir_
 	self._update_reflection_mapping()
 

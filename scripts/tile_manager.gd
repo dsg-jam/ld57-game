@@ -38,7 +38,10 @@ func _load_tiles_from_layers() -> void:
 		var atlas_coords := self._item_layer.get_cell_atlas_coords(map_pos)
 		# The x component of the atlas coords corresponds to the direction enum
 		var direction := atlas_coords.x as M_Tile.M_Direction
-		self._add_tile(M_MirrorTile.new(cube_pos, direction))
+		match atlas_coords.y:
+			0: self._add_tile(M_MirrorTile.new(cube_pos, direction))
+			1: self._add_tile(M_SplitterTile.new(cube_pos, direction))
+			2: self._add_tile(M_CombinerTile.new(cube_pos, direction))
 
 	# Load events
 	for map_pos in self._event_layer.get_used_cells():
@@ -62,17 +65,12 @@ func _load_tiles_from_layers() -> void:
 		var color := (atlas_coords.y + 1) as M_Light.M_Color
 		self._add_tile(M_LightEmitterTile.new(cube_pos, color, axis))
 
-	# TODO:
-	# HARD-CODED splitter
-	self._add_tile(M_SplitterTile.new(Vector3i(3, 1, -4), M_Tile.M_Direction.UP))
-	self._add_tile(M_CombinerTile.new(Vector3i(0, 4, -4), M_Tile.M_Direction.DOWN))
-
 	self._recalculate_light()
 
 func _on_checkpoint_reached():
 	if self._next_checkpoint >= len(self._checkpoints):
 		return
-	var y = self._checkpoints[self._next_checkpoint]
+	var y := self._checkpoints[self._next_checkpoint]
 	self._next_checkpoint += 1
 	checkpoint_reached.emit(y)
 
@@ -84,43 +82,47 @@ func set_item(item_type: Global.ItemType) -> bool:
 
 	var map_pos = self._item_layer.cube_to_map(cube_pos)
 	var new_tile: M_Tile
+	var atlas_y: int
 	match item_type:
 		Global.ItemType.MIRROR:
-			new_tile = M_MirrorTile.new(cube_pos, M_Tile.M_Direction.UP_RIGHT)
+			new_tile = self._add_tile(M_MirrorTile.new(cube_pos, M_Tile.M_Direction.UP_RIGHT))
+			atlas_y = 0
+		Global.ItemType.SPLITTER:
+			new_tile = self._add_tile(M_SplitterTile.new(cube_pos, M_Tile.M_Direction.UP_RIGHT))
+			atlas_y = 1
+		Global.ItemType.COMBINER:
+			new_tile = self._add_tile(M_CombinerTile.new(cube_pos, M_Tile.M_Direction.UP_RIGHT))
+			atlas_y = 2
 		_:
 			push_error("Unhandled item")
 			return false
-	self._add_tile(new_tile)
-	self._item_layer.set_cell(map_pos, 0, Vector2i(0, 0))
+
+	new_tile.placed_by_user = true
+	self._item_layer.set_cell(map_pos, 0, Vector2i(0, atlas_y))
 	self._recalculate_light()
 	return true
 
 func remove_item() -> Global.ItemType:
-	var cube_pos = self._item_layer.get_closest_cell_from_mouse()
-	var tile = self._tiles.get(cube_pos)
-	if not tile: return Global.ItemType.NONE
-	# TODO: Expand with other variants
-	if not tile is M_MirrorTile: return Global.ItemType.NONE
+	var cube_pos := self._item_layer.get_closest_cell_from_mouse()
+	var tile: M_Tile = self._tiles.get(cube_pos)
+	if not (tile and tile.placed_by_user): return Global.ItemType.NONE
 
-	var map_pos = self._item_layer.cube_to_map(cube_pos)
+	var map_pos := self._item_layer.cube_to_map(cube_pos)
 	# TODO: erase tile
 	self._tiles.erase(cube_pos)
 	self._item_layer.erase_cell(map_pos)
-	var item_type = Global.ItemType.NONE
-	if tile is M_MirrorTile:
-		item_type = Global.ItemType.MIRROR
 	self._recalculate_light()
-	return item_type
+	return tile.item_type
 
 func rotate_item() -> bool:
-	var cube_pos = self._item_layer.get_closest_cell_from_mouse()
+	var cube_pos := self._item_layer.get_closest_cell_from_mouse()
 	var tile: M_Tile = self._tiles.get(cube_pos)
-	if not (tile and tile is M_MirrorTile): return false
-	var map_pos = self._item_layer.cube_to_map(cube_pos)
+	if not (tile and tile.placed_by_user): return false
 
-	tile.rotate_clockwise()
-	var a = tile._normal_dir
-	self._item_layer.set_cell(map_pos, 0, Vector2i(a, 0))
+	var map_pos = self._item_layer.cube_to_map(cube_pos)
+	var atlas_x: M_Tile.M_Direction = tile.rotate_clockwise()
+	var atlas_y := self._item_layer.get_cell_atlas_coords(map_pos).y
+	self._item_layer.set_cell(map_pos, 0, Vector2i(atlas_x, atlas_y))
 	self._recalculate_light()
 	return true
 

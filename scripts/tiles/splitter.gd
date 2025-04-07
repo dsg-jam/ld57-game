@@ -8,6 +8,7 @@ var _blue_dir: M_Direction
 
 func _init(position_: Vector3i, normal_dir_: M_Direction) -> void:
 	super (position_)
+	self.item_type = Global.ItemType.SPLITTER
 	self._normal_dir = normal_dir_
 	self._update_mapping()
 
