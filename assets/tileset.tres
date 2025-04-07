@@ -1,29 +1,37 @@
 [gd_resource type="TileSet" load_steps=9 format=3 uid="uid://h6upodi6txib"]
 
-[ext_resource type="Texture2D" uid="uid://dkorplxjjikbl" path="res://assets/mirrors.png" id="1_ylah7"]
+[ext_resource type="Texture2D" uid="uid://dkorplxjjikbl" path="res://assets/items.png" id="1_7lii3"]
 [ext_resource type="Texture2D" uid="uid://dteufuw2eqb7i" path="res://assets/walls.png" id="2_fcvr3"]
 [ext_resource type="Texture2D" uid="uid://fkcmtvufrxaj" path="res://assets/gras.png" id="3_7lii3"]
 [ext_resource type="Texture2D" uid="uid://dhgma4ja3ps7v" path="res://assets/lights.png" id="3_fcvr3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7lii3"]
-resource_name = "mirrors"
-texture = ExtResource("1_ylah7")
+resource_name = "items"
+texture = ExtResource("1_7lii3")
 texture_region_size = Vector2i(64, 64)
 0:0/next_alternative_id = 2
 0:0/0 = 0
-0:0/1 = 1
-0:0/1/modulate = Color(1, 0, 1, 0.215686)
 1:0/0 = 0
 2:0/next_alternative_id = 2
 2:0/0 = 0
-2:0/1 = 1
-2:0/1/modulate = Color(0, 1, 1, 1)
 3:0/0 = 0
 4:0/0 = 0
 5:0/next_alternative_id = 2
 5:0/0 = 0
-5:0/1 = 1
-5:0/1/modulate = Color(1, 0, 0, 1)
+0:1/0 = 0
+1:1/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+3:1/0 = 0
+2:1/0 = 0
+5:2/0 = 0
+1:2/0 = 0
+0:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uyjym"]
 resource_name = "walls"
