@@ -22,8 +22,9 @@ func _update_reflection_mapping() -> void:
 		var target_dir := posmod(self._normal_dir + relative[dir_off], 6) as M_Direction
 		self._reflection_mapping[src_dir] = target_dir
 
-func recalculate_light() -> void:
+func recalculate_light(level: int) -> void:
 	var new_outputs := self._light_outputs.duplicate()
+	new_outputs.fill(M_Light.black())
 	for dir in self._reflection_mapping:
 		var light := self.get_light_from_dir(dir)
 		if light.is_black(): continue
@@ -32,4 +33,4 @@ func recalculate_light() -> void:
 		if not light.is_black():
 			# TODO: do this differently!
 			self.tile_manager.set_light(self.position, out_dir, light)
-	self.forward_output_diffs(new_outputs)
+	self.forward_output_diffs(level, new_outputs)

@@ -25,7 +25,7 @@ func _update_mapping() -> void:
 	# blue is to the right of green
 	self._blue_dir = posmod(self._green_dir + 1, 6) as M_Direction
 
-func recalculate_light() -> void:
+func recalculate_light(level: int) -> void:
 	var new_outputs := self._light_outputs.duplicate()
 	new_outputs.fill(M_Light.black())
 	var light := self.get_light_from_dir(self._normal_dir)
@@ -35,4 +35,4 @@ func recalculate_light() -> void:
 	new_outputs[self._red_dir] = light.split_red()
 	new_outputs[self._green_dir] = light.split_green()
 	new_outputs[self._blue_dir] = light.split_blue()
-	self.forward_output_diffs(new_outputs)
+	self.forward_output_diffs(level, new_outputs)

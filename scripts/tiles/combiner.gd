@@ -22,11 +22,10 @@ func _update_mapping() -> void:
 		var dir := posmod(input_dir + off, 6) as M_Direction
 		self._input_dirs.push_back(dir)
 
-func recalculate_light() -> void:
+func recalculate_light(level: int) -> void:
 	var output_light := M_Light.black()
 	for input_dir in self._input_dirs:
 		var light := self.get_light_from_dir(input_dir)
-		print(M_Direction.keys()[input_dir], ": ", light)
 		if light.is_black(): continue
 		output_light = M_Light.combine(output_light, light)
 
@@ -36,4 +35,4 @@ func recalculate_light() -> void:
 
 	# TODO: do this differently!
 	self.tile_manager.set_light(self.position, self._normal_dir, output_light)
-	self.forward_output_diffs(new_outputs)
+	self.forward_output_diffs(level, new_outputs)

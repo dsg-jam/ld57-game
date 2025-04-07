@@ -16,4 +16,4 @@ func _init(position_: Vector3i, color: M_Light.M_Color, axis: M_Direction) -> vo
 func start_recalculate_light_chain() -> void:
 	print(self, ": emitting light: ", self._light)
 	self.tile_manager.set_light(self.position, M_Direction.UP, self._light)
-	self.forward_output_diffs(self._emitter_outputs)
+	self.forward_output_diffs(0, self._emitter_outputs)

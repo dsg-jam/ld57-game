@@ -38,11 +38,12 @@ var position: Vector3i:
 	get:
 		return self._position
 var _light_outputs: Array[M_Light]
+var _visited := false
 
 func _init(position_: Vector3i) -> void:
 	self._position = position_
 	self._light_outputs.resize(6)
-	self._light_outputs.fill(M_Light.black())
+	self.reset_light_calculation()
 
 func _class_name() -> String:
 	var script = self.get_script()
@@ -65,25 +66,30 @@ func get_light_output_in_dir(dir: M_Direction) -> M_Light:
 func reset_light_calculation() -> void:
 	self._light_outputs.fill(M_Light.black())
 
-func recalculate_light() -> void:
+func recalculate_light(_level: int) -> void:
 	push_error("recalculate_light() not implemented in " + self._class_name())
 
-func forward_output_diffs(new_outputs: Array[M_Light]) -> bool:
+func forward_output_diffs(level: int, new_outputs: Array[M_Light]) -> bool:
+	self._visited = false
 	var triggered_update := false
 	for dir in M_Direction.values():
 		var old_output := self._light_outputs[dir]
 		var new_output := new_outputs[dir]
-		if old_output.id == new_output.id:
+		if old_output.id == new_output.id and old_output.color == new_output.color:
 			#if not (old_output.is_black() and new_output.is_black()):
 				#print(self, ": stopped light recursion: ", old_output, " == ", new_output)
 			continue
 		self._light_outputs[dir] = new_output
-		if new_output.is_black():
-			continue
+		#if new_output.is_black():
+			#continue
 		var dir_vec := direction_to_vec(dir)
 		var tile := self.tile_manager.get_tile(self.position + dir_vec)
 		if not tile: continue
 		#print(self, ": forwarding update ", M_Direction.keys()[dir], " to ", tile)
-		tile.recalculate_light()
 		triggered_update = true
+		tile.recalculate_light(level + 1)
+		tile._visited = true
+		if self._visited:
+			# we recursed onto this tile again!
+			break
 	return triggered_update

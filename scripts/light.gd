@@ -35,10 +35,15 @@ static func black() -> M_Light:
 static func combine(a: M_Light, b: M_Light) -> M_Light:
 	if a.is_black(): return b
 	if b.is_black(): return a
-	return M_Light.new(a.id + b.id, a.color | b.color, min(a.strength, b.strength))
+	var new_id: int
+	if a.id == b.id:
+		new_id = a.id
+	else:
+		new_id = a.id + b.id
+	return M_Light.new(new_id, a.color | b.color, min(a.strength, b.strength))
 
 func is_black() -> bool:
-	return self.color == M_Color.BLACK || self.strength <= 0
+	return self.color == M_Color.BLACK or self.strength <= 0
 
 func weaken() -> M_Light:
 	var new_strength: int = max(self.strength - 1, 0)
