@@ -30,6 +30,8 @@ static func vec_to_direction(vec: Vector3i) -> M_Direction:
 	return idx as M_Direction
 
 var tile_manager: M_TileManager
+var placed_by_user := false
+var item_type := Global.ItemType.NONE
 
 var _position: Vector3i
 var position: Vector3i:
