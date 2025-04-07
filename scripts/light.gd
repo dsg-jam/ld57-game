@@ -21,7 +21,7 @@ var id: int:
 var strength: int
 var color: M_Color = M_Color.WHITE
 
-func _init(id_: int, color_: M_Color, strength_: int = 30) -> void:
+func _init(id_: int, color_: M_Color, strength_: int = 80) -> void:
 	self.color = color_
 	self.strength = strength_
 	self._id = id_
