@@ -1,16 +1,19 @@
 class_name M_TileManager extends Node
 
+@export var _light_layer_up_right: HexagonTileMapLayer
+@export var _light_layer_down_right: HexagonTileMapLayer
+@export var _light_layer_down: HexagonTileMapLayer
 @export var _wall_layer: HexagonTileMapLayer
-@export var _light_layer: HexagonTileMapLayer
 @export var _item_layer: HexagonTileMapLayer
 @export var _event_layer: HexagonTileMapLayer
+@export var _items_source_id: int
 @export var _lights_source_id: int
 
 signal checkpoint_reached
 
 var _tiles: Dictionary[Vector3i, M_Tile]
 var _checkpoints: Array[float]
-var _next_checkpoint = 0
+var _next_checkpoint := 0
 
 func _ready() -> void:
 	self._load_tiles_from_layers()
@@ -35,15 +38,22 @@ func _load_tiles_from_layers() -> void:
 	# Load pre-defined items
 	for map_pos in self._item_layer.get_used_cells():
 		var cube_pos := self._item_layer.map_to_cube(map_pos)
+		var source_id := self._item_layer.get_cell_source_id(map_pos)
 		var atlas_coords := self._item_layer.get_cell_atlas_coords(map_pos)
 		# The x component of the atlas coords corresponds to the direction enum
 		var direction := atlas_coords.x as M_Tile.M_Direction
-		match atlas_coords.y:
-			0: self._add_tile(M_MirrorTile.new(cube_pos, direction))
-			1: self._add_tile(M_SplitterTile.new(cube_pos, direction))
-			2: self._add_tile(M_CombinerTile.new(cube_pos, direction))
+		if source_id == self._lights_source_id:
+			# This is a light emitter
+			var color := (atlas_coords.y + 1) as M_Light.M_Color
+			self._add_tile(M_LightEmitterTile.new(cube_pos, color, direction))
+		else:
+			# Normal item
+			match atlas_coords.y:
+				0: self._add_tile(M_MirrorTile.new(cube_pos, direction))
+				1: self._add_tile(M_SplitterTile.new(cube_pos, direction))
+				2: self._add_tile(M_CombinerTile.new(cube_pos, direction))
 
-	# Load events
+	# Load checkpoints
 	for map_pos in self._event_layer.get_used_cells():
 		var cube_pos := self._event_layer.map_to_cube(map_pos)
 		var event_tile = M_CheckpointTile.new(cube_pos)
@@ -52,18 +62,6 @@ func _load_tiles_from_layers() -> void:
 		self._add_tile(event_tile)
 	self._checkpoints.sort()
 	self._on_checkpoint_reached()
-
-	# Load light emitters
-	for map_pos in self._light_layer.get_used_cells():
-		var atlas_coords := self._light_layer.get_cell_atlas_coords(map_pos)
-		if atlas_coords.x > 3:
-			# Only the first three tiles can be emitters
-			continue
-		var cube_pos := self._light_layer.map_to_cube(map_pos)
-		# The x component of the atlas coords corresponds to the direction enum
-		var axis := atlas_coords.x as M_Tile.M_Direction
-		var color := (atlas_coords.y + 1) as M_Light.M_Color
-		self._add_tile(M_LightEmitterTile.new(cube_pos, color, axis))
 
 	self._recalculate_light()
 
@@ -144,18 +142,33 @@ func _recalculate_light() -> void:
 		var tile: M_Tile = tile_
 		tile.reset_light_calculation()
 
-	self._light_layer.clear()
+	self._light_layer_up_right.clear()
+	self._light_layer_down_right.clear()
+	self._light_layer_down.clear()
 	for tile in self._tiles.values():
 		if tile is M_LightEmitterTile:
 			tile.start_recalculate_light_chain()
+	for tile_ in self._tiles.values():
+		var tile: M_Tile = tile_
+		tile.update_tile_display()
 
 func set_light(position: Vector3i, direction: M_Tile.M_Direction, light: M_Light) -> void:
-	var map_pos := self._light_layer.cube_to_map(position)
+	var layer: HexagonTileMapLayer
+	match direction % 3:
+		M_Tile.M_Direction.UP_RIGHT: layer = self._light_layer_up_right
+		M_Tile.M_Direction.DOWN_RIGHT: layer = self._light_layer_down_right
+		M_Tile.M_Direction.DOWN: layer = self._light_layer_down
+
+	var map_pos := layer.cube_to_map(position)
 	if light.is_black():
-		self._light_layer.erase_cell(map_pos)
+		layer.erase_cell(map_pos)
 		return
 
 	# The x axis is for the cardinal directions and the
 	# y axis contains the various colours in the same order as the bitfield.
 	var atlas_coords := Vector2i(direction % 3, light.color - 1)
-	self._light_layer.set_cell(map_pos, self._lights_source_id, atlas_coords)
+	layer.set_cell(map_pos, self._lights_source_id, atlas_coords)
+
+func set_checkpoint_active(position: Vector3i, active: bool) -> void:
+	var map_pos := self._item_layer.cube_to_map(position)
+	self._item_layer.set_cell(map_pos, self._items_source_id, Vector2i(!active, 3))

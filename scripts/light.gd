@@ -27,7 +27,7 @@ func _init(id_: int, color_: M_Color, strength_: int = 80) -> void:
 	self._id = id_
 
 func _to_string() -> String:
-	return "%s(%d)@%d" % [_color_name(self.color), self.strength, self._id]
+	return "%s(%d)@%d" % [_color_name(self.color), self._id, self.strength]
 
 static func black() -> M_Light:
 	return M_Light.new(-1, M_Color.BLACK, 0)
@@ -41,6 +41,10 @@ static func combine(a: M_Light, b: M_Light) -> M_Light:
 	else:
 		new_id = a.id + b.id
 	return M_Light.new(new_id, a.color | b.color, min(a.strength, b.strength))
+
+static func coalesce(a: M_Light, b: M_Light) -> M_Light:
+	if a.is_black(): return b
+	return a
 
 func is_black() -> bool:
 	return self.color == M_Color.BLACK or self.strength <= 0

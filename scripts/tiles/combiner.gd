@@ -30,9 +30,12 @@ func recalculate_light(level: int) -> void:
 		output_light = M_Light.combine(output_light, light)
 
 	var new_outputs := self._light_outputs.duplicate()
-	new_outputs.fill(M_Light.black())
 	new_outputs[self._normal_dir] = output_light
+	print(self, ": emitting: ", output_light)
 
-	# TODO: do this differently!
 	self.tile_manager.set_light(self.position, self._normal_dir, output_light)
 	self.forward_output_diffs(level, new_outputs)
+
+func update_tile_display() -> void:
+	var light := self._light_outputs[self._normal_dir]
+	self.tile_manager.set_light(self._position, self._normal_dir, light)

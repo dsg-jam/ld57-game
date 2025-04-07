@@ -33,8 +33,21 @@ offset_right = 445.0
 offset_bottom = 765.0
 texture = SubResource("GradientTexture1D_p57ef")
 
-[node name="LightLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAADAPr/AwACAAYAAAA=")
+[node name="LightLayers" type="Node" parent="."]
+
+[node name="UpRight" type="TileMapLayer" parent="LightLayers"]
+tile_set = ExtResource("1_lbhrr")
+collision_enabled = false
+navigation_enabled = false
+script = ExtResource("2_lbhrr")
+
+[node name="DownRight" type="TileMapLayer" parent="LightLayers"]
+tile_set = ExtResource("1_lbhrr")
+collision_enabled = false
+navigation_enabled = false
+script = ExtResource("2_lbhrr")
+
+[node name="Down" type="TileMapLayer" parent="LightLayers"]
 tile_set = ExtResource("1_lbhrr")
 collision_enabled = false
 navigation_enabled = false
@@ -55,16 +68,18 @@ navigation_enabled = false
 script = ExtResource("2_lbhrr")
 
 [node name="ItemLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAACAA0AAAAFAAEAAAD//xAAAAADAAIAAAA=")
+tile_map_data = PackedByteArray("AAACAA0AAAAFAAEAAAD//xAAAAADAAIAAAADAPr/AwACAAYAAAA=")
 tile_set = ExtResource("1_lbhrr")
 collision_enabled = false
 navigation_enabled = false
 script = ExtResource("2_lbhrr")
 
-[node name="TileManager" type="Node" parent="." node_paths=PackedStringArray("_wall_layer", "_light_layer", "_item_layer", "_event_layer")]
+[node name="TileManager" type="Node" parent="." node_paths=PackedStringArray("_light_layer_up_right", "_light_layer_down_right", "_light_layer_down", "_wall_layer", "_item_layer", "_event_layer")]
 script = ExtResource("5_iywne")
+_light_layer_up_right = NodePath("../LightLayers/UpRight")
+_light_layer_down_right = NodePath("../LightLayers/DownRight")
+_light_layer_down = NodePath("../LightLayers/Down")
 _wall_layer = NodePath("../WallLayer")
-_light_layer = NodePath("../LightLayer")
 _item_layer = NodePath("../ItemLayer")
 _event_layer = NodePath("../EventLayer")
 _lights_source_id = 3

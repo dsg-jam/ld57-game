@@ -69,6 +69,9 @@ func reset_light_calculation() -> void:
 func recalculate_light(_level: int) -> void:
 	push_error("recalculate_light() not implemented in " + self._class_name())
 
+func update_tile_display() -> void:
+	push_error("update_tile_display() not implemented in " + self._class_name())
+
 func forward_output_diffs(level: int, new_outputs: Array[M_Light]) -> bool:
 	self._visited = false
 	var triggered_update := false
@@ -76,8 +79,8 @@ func forward_output_diffs(level: int, new_outputs: Array[M_Light]) -> bool:
 		var old_output := self._light_outputs[dir]
 		var new_output := new_outputs[dir]
 		if old_output.id == new_output.id and old_output.color == new_output.color:
-			#if not (old_output.is_black() and new_output.is_black()):
-				#print(self, ": stopped light recursion: ", old_output, " == ", new_output)
+			if not (old_output.is_black() and new_output.is_black()):
+				print(self, ": light already propagated ", M_Direction.keys()[dir], ": ", old_output, " == ", new_output)
 			continue
 		self._light_outputs[dir] = new_output
 		#if new_output.is_black():
@@ -91,5 +94,6 @@ func forward_output_diffs(level: int, new_outputs: Array[M_Light]) -> bool:
 		tile._visited = true
 		if self._visited:
 			# we recursed onto this tile again!
+			print(self, ": stopped light recursion after ", M_Direction.keys()[dir])
 			break
 	return triggered_update

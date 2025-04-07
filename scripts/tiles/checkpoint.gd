@@ -12,7 +12,6 @@ func recalculate_light(level: int) -> void:
 		resulting_color |= light.color
 
 	var new_outputs := self._light_outputs.duplicate()
-	new_outputs.fill(M_Light.black())
 
 	if resulting_color != M_Light.M_Color.WHITE:
 		# We night WHITE to complete the checkpoint!
@@ -22,3 +21,11 @@ func recalculate_light(level: int) -> void:
 	new_outputs[M_Direction.DOWN] = M_Light.new(self.get_instance_id(), M_Light.M_Color.WHITE)
 	self.forward_output_diffs(level, new_outputs)
 	checkpoint_reached.emit()
+
+func update_tile_display() -> void:
+	var active := false
+	for light in self._light_outputs:
+		if light.is_black(): continue
+		active = true
+		break
+	self.tile_manager.set_checkpoint_active(self.position, active)

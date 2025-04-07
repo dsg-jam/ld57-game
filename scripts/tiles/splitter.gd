@@ -27,12 +27,13 @@ func _update_mapping() -> void:
 
 func recalculate_light(level: int) -> void:
 	var new_outputs := self._light_outputs.duplicate()
-	new_outputs.fill(M_Light.black())
 	var light := self.get_light_from_dir(self._normal_dir)
-	# TODO: do this differently!
-	self.tile_manager.set_light(self.position, self._normal_dir, light)
 
 	new_outputs[self._red_dir] = light.split_red()
 	new_outputs[self._green_dir] = light.split_green()
 	new_outputs[self._blue_dir] = light.split_blue()
 	self.forward_output_diffs(level, new_outputs)
+
+func update_tile_display() -> void:
+	var light := self._light_outputs[self._normal_dir]
+	self.tile_manager.set_light(self._position, self._normal_dir, light)
