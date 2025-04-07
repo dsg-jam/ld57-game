@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://dkorplxjjikbl" path="res://assets/items.png" id="1_7lii3"]
 [ext_resource type="Texture2D" uid="uid://dteufuw2eqb7i" path="res://assets/walls.png" id="2_fcvr3"]
-[ext_resource type="Texture2D" uid="uid://fkcmtvufrxaj" path="res://assets/gras.png" id="3_7lii3"]
+[ext_resource type="Texture2D" uid="uid://fkcmtvufrxaj" path="res://assets/grass.png" id="3_7lii3"]
 [ext_resource type="Texture2D" uid="uid://dhgma4ja3ps7v" path="res://assets/lights.png" id="3_fcvr3"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_7lii3"]
@@ -69,6 +69,7 @@ texture_region_size = Vector2i(64, 64)
 9:2/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_beawo"]
+resource_name = "grass"
 texture = ExtResource("3_7lii3")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
