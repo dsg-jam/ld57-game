@@ -57,7 +57,7 @@ navigation_enabled = false
 script = ExtResource("2_lbhrr")
 
 [node name="EventLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAAAACMAAAABAAMAAAADAAoAAAABAAMAAAAAABgAAAABAAMAAAA=")
+tile_map_data = PackedByteArray("AAADAAoAAAABAAMAAAAAABgAAAABAAMAAAAAACIAAAABAAMAAAA=")
 tile_set = ExtResource("1_lbhrr")
 collision_enabled = false
 navigation_enabled = false
@@ -146,13 +146,13 @@ alignment = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -994.0
-offset_top = 1844.0
-offset_right = 283.0
-offset_bottom = 1976.0
+offset_left = -721.0
+offset_top = 1711.0
+offset_right = -1.0
+offset_bottom = 1843.0
 grow_horizontal = 2
 size_flags_horizontal = 4
-text = "Bling Bling Bling!"
+text = " Bling Bling Bling!"
 label_settings = SubResource("LabelSettings_8cj0n")
 horizontal_alignment = 1
 vertical_alignment = 1
