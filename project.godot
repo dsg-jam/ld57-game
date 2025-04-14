@@ -34,6 +34,10 @@ scroll_up={
 "events": []
 }
 
+[input_devices]
+
+pointing/android/enable_long_press_as_right_click=true
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
