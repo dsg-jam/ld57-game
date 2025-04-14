@@ -14,8 +14,10 @@ colors = PackedColorArray(0.34, 0.824, 1, 1, 1, 1, 1, 1)
 gradient = SubResource("Gradient_iywne")
 
 [sub_resource type="LabelSettings" id="LabelSettings_8cj0n"]
-font_size = 96
-font_color = Color(0.74, 0.952333, 1, 1)
+font_size = 62
+font_color = Color(0.498039, 0.862745, 1, 1)
+outline_size = 21
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Node" type="Node" node_paths=PackedStringArray("_item_container", "_tile_manager", "_camera")]
 script = ExtResource("1_iywne")
@@ -92,15 +94,15 @@ script = ExtResource("6_p57ef")
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -1276.0
-offset_top = -195.0
-offset_right = 1.0
-offset_bottom = -63.0
+offset_left = -684.0
+offset_top = -170.0
+offset_right = -4.0
+offset_bottom = 5.0
 grow_horizontal = 2
 size_flags_horizontal = 4
-text = "Illuminate  the     Depths!"
+text = "Illuminate the 
+Depths!"
 label_settings = SubResource("LabelSettings_8cj0n")
-horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -142,10 +144,10 @@ alignment = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -1288.0
-offset_top = 1805.0
-offset_right = -11.0
-offset_bottom = 1937.0
+offset_left = -994.0
+offset_top = 1844.0
+offset_right = 283.0
+offset_bottom = 1976.0
 grow_horizontal = 2
 size_flags_horizontal = 4
 text = "Bling Bling Bling!"
