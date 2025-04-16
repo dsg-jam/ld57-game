@@ -10,48 +10,43 @@ corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
 [node name="ItemButton" type="Control" node_paths=PackedStringArray("_button", "_counter_label")]
-custom_minimum_size = Vector2(64, 64)
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_vertical = 3
+anchors_preset = 0
+offset_right = 100.0
+offset_bottom = 100.0
 script = ExtResource("1_s37ie")
-_button = NodePath("MarginContainer/Button")
-_counter_label = NodePath("Badge/CounterLabel")
+_button = NodePath("AspectRatioContainer/MarginContainer/Button")
+_counter_label = NodePath("AspectRatioContainer/Badge/CounterLabel")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="AspectRatioContainer" type="AspectRatioContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="AspectRatioContainer"]
+layout_mode = 2
 theme_override_constants/margin_top = 14
 theme_override_constants/margin_right = 14
 
-[node name="Button" type="Button" parent="MarginContainer"]
+[node name="Button" type="Button" parent="AspectRatioContainer/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 text = "Mirror
 "
 icon_alignment = 1
 
-[node name="Badge" type="Panel" parent="."]
+[node name="Badge" type="Panel" parent="AspectRatioContainer"]
 custom_minimum_size = Vector2(28, 28)
-layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -28.0
-offset_bottom = 28.0
-grow_horizontal = 0
+layout_mode = 2
 size_flags_horizontal = 8
+size_flags_vertical = 0
 theme_override_styles/panel = SubResource("StyleBoxFlat_s37ie")
 
-[node name="CounterLabel" type="Label" parent="Badge"]
+[node name="CounterLabel" type="Label" parent="AspectRatioContainer/Badge"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -63,4 +58,4 @@ text = "#"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="MarginContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="AspectRatioContainer/MarginContainer/Button" to="." method="_on_button_pressed"]
