@@ -11,7 +11,6 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventScreenDrag:
-		var drag_event := event as InputEventScreenDrag
 		var drag_diff: float = DRAG_SPEED * event.screen_relative.y
 		self.position.y = clamp(self.position.y - drag_diff, self._min_pos, self._max_pos)
 	elif event is InputEventMouseButton:
