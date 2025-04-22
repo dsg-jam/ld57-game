@@ -1,6 +1,7 @@
 class_name M_SplitterTile extends M_Tile
 
 var _normal_dir: M_Direction
+var _input_light: M_Light
 # input dir is opposite of the normal dir
 var _red_dir: M_Direction
 var _green_dir: M_Direction
@@ -10,6 +11,7 @@ func _init(position_: Vector3i, normal_dir_: M_Direction) -> void:
 	super (position_)
 	self.item_type = Global.ItemType.SPLITTER
 	self._normal_dir = normal_dir_
+	self._input_light = M_Light.black()
 	self._update_mapping()
 
 func rotate_clockwise() -> M_Direction:
@@ -28,6 +30,7 @@ func _update_mapping() -> void:
 func recalculate_light(level: int) -> void:
 	var new_outputs := self._light_outputs.duplicate()
 	var light := self.get_light_from_dir(self._normal_dir)
+	self._input_light = light
 
 	new_outputs[self._red_dir] = light.split_red()
 	new_outputs[self._green_dir] = light.split_green()
@@ -35,5 +38,4 @@ func recalculate_light(level: int) -> void:
 	self.forward_output_diffs(level, new_outputs)
 
 func update_tile_display() -> void:
-	var light := self._light_outputs[self._normal_dir]
-	self.tile_manager.set_light(self._position, self._normal_dir, light)
+	self.tile_manager.set_light(self._position, self._normal_dir, self._input_light)
